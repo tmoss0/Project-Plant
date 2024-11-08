@@ -1,7 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dopsbp4nqkliw"]
+[gd_scene load_steps=18 format=3 uid="uid://dopsbp4nqkliw"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_usb8g"]
+[ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
 [ext_resource type="Texture2D" uid="uid://dioj0oaoqqa5m" path="res://assets/textures/character/Idle (32x32).png" id="2_kvbms"]
+[ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/character/Jump (32x32).png" id="4_8gk2l"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxbb7"]
 
@@ -53,6 +55,14 @@ region = Rect2(320, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("2_jbnev")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_r3p22")
 }, {
 "duration": 1.0,
@@ -86,7 +96,15 @@ animations = [{
 "texture": SubResource("AtlasTexture_ogy3j")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_8gk2l")
+}],
+"loop": true,
+"name": &"jump",
 "speed": 20.0
 }]
 
@@ -94,16 +112,14 @@ animations = [{
 position = Vector2(-1, 0)
 collision_mask = 2
 script = ExtResource("1_usb8g")
-SPEED = 325.0
-JUMP_VELOCITY = -425.0
-FRICTION = 700.0
+SPEED = 415.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_oxbb7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2vuod")
-autoplay = "default"
-frame_progress = 0.872951
+animation = &"jump"
+autoplay = "idle"
 
 [node name="CoyoteTimer" type="Timer" parent="."]

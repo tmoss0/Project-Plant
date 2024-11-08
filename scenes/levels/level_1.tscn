@@ -4,7 +4,8 @@
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_um5t2"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cq8in"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ta0o2"]
+size = Vector2(990, 39)
 
 [node name="Level1" type="Node2D"]
 
@@ -16,10 +17,14 @@ position = Vector2(229, 138)
 collision_layer = 2
 
 [node name="TextureRect" type="TextureRect" parent="Floor"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -429.0
+offset_top = 2.0
+offset_right = -389.0
+offset_bottom = 42.0
+scale = Vector2(24.76, 1)
 texture = SubResource("CanvasTexture_um5t2")
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-shape = SubResource("WorldBoundaryShape2D_cq8in")
+position = Vector2(67, 21.5)
+shape = SubResource("RectangleShape2D_ta0o2")
