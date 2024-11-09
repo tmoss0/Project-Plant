@@ -1,9 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://dopsbp4nqkliw"]
+[gd_scene load_steps=20 format=3 uid="uid://dopsbp4nqkliw"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_usb8g"]
+[ext_resource type="Script" path="res://scripts/grappling_hook.gd" id="2_c4tpo"]
 [ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
 [ext_resource type="Texture2D" uid="uid://dioj0oaoqqa5m" path="res://assets/textures/character/Idle (32x32).png" id="2_kvbms"]
 [ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/character/Jump (32x32).png" id="4_8gk2l"]
+[ext_resource type="Texture2D" uid="uid://8xfvdmb00wwk" path="res://assets/textures/grapple/hook.png" id="5_4pidl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxbb7"]
 
@@ -113,6 +115,19 @@ position = Vector2(-1, 0)
 collision_mask = 2
 script = ExtResource("1_usb8g")
 SPEED = 415.0
+
+[node name="GrapplingHook" type="Node2D" parent="."]
+script = ExtResource("2_c4tpo")
+
+[node name="GrappleRaycast" type="RayCast2D" parent="GrapplingHook"]
+collision_mask = 4
+
+[node name="GrappleLine" type="Line2D" parent="GrapplingHook"]
+
+[node name="AimLine" type="Line2D" parent="GrapplingHook"]
+
+[node name="HookSprite" type="Sprite2D" parent="GrapplingHook"]
+texture = ExtResource("5_4pidl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_oxbb7")
