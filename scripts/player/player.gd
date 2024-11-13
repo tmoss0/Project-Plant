@@ -9,6 +9,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var coyote_timer = $CoyoteTimer
 @onready var grappling_hook = $GrapplingHook
 
+var abilites_unlocked = {
+	"grappling": false,
+	"climbing": false,
+	"burrowing": false,
+	"thorns": false
+}
+
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("grapple"):
 		grappling_hook.shoot_grapple()

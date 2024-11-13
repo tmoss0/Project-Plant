@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnnoudi50uj8t"]
+
+[ext_resource type="PackedScene" uid="uid://dopsbp4nqkliw" path="res://scenes/characters/player.tscn" id="1_8dtx3"]
+[ext_resource type="PackedScene" uid="uid://dy6i5exwnnkj" path="res://scenes/levels/platforms/world_floor.tscn" id="3_50rol"]
+[ext_resource type="PackedScene" uid="uid://wre8kk54hag3" path="res://scenes/levels/terrain_tile_map/tile_map_layer.tscn" id="3_67ax2"]
+
+[node name="Level1" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_8dtx3")]
+position = Vector2(548, 284)
+
+[node name="World_Floor" parent="." instance=ExtResource("3_50rol")]
+position = Vector2(525, 652)
+
+[node name="TileMapLayer" parent="World_Floor" instance=ExtResource("3_67ax2")]
