@@ -19,19 +19,17 @@ var abilites_unlocked = {
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("grapple"):
 		grappling_hook.shoot_grapple()
-	elif Input.is_action_just_released("grapple"):
-		grappling_hook.release_grapple()
 
 	if grappling_hook.is_hook_traveling:
 		grappling_hook.update_traveling_hook(delta)
-	elif grappling_hook.is_grappling:
+	elif grappling_hook.is_hook_attached:
 		grappling_hook.handle_grapple_movement(delta)
 	else:
 		handle_normal_movement(delta)
 	
 	move_and_slide()
 	update_animations()
-	grappling_hook.update_grapple_rope()
+	grappling_hook.update_grapple_line()
 
 func handle_normal_movement(delta: float) -> void:
 	# Add gravity
@@ -57,7 +55,7 @@ func handle_normal_movement(delta: float) -> void:
 		coyote_timer.start()
 
 func update_animations() -> void:
-	if grappling_hook.is_grappling:
+	if grappling_hook.is_hook_attached:
 		if sprite.sprite_frames.has_animation("grapple"):
 			sprite.play("grapple")
 		return
