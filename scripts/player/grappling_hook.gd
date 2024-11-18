@@ -179,21 +179,6 @@ func initiate_traveling_grapple():
 	# Default to traveling towards the max distance
 	grapple_point_position = global_position + grapple_direction * grapple_distance
 
-	## Set the target grapple position to the max distance or collision point
-	#var raycast_result = activate_grapple_raycast(grapple_direction, grapple_distance)
-#
-	## If raycast hits something, update the grapple target position
-	#if raycast_result.hit:
-		#var hit_collider = grapple_raycast.get_collider()
-		#if hit_collider:
-			#print("Collision: ", check_grapple_hit_valid_surface(hit_collider))
-			#if check_grapple_hit_valid_surface(hit_collider):
-				#var potential_point = raycast_result.collision_point
-				#print("Potential point: ", potential_point.distance_to(global_position))
-				#if potential_point.distance_to(global_position) <= MAX_GRAPPLE_DISTANCE:
-					#grapple_point_position = potential_point
-					#print("Grapple Point Position: ", grapple_point_position)	
-
 # Reset grapple state
 func release_grapple():
 	is_hook_attached = false
