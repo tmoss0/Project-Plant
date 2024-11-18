@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dopsbp4nqkliw" path="res://scenes/characters/player.tscn" id="1_8dtx3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_goot8"]
-size = Vector2(936, 49)
+size = Vector2(936, 48)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_vu4xg"]
 
@@ -20,7 +20,7 @@ position = Vector2(-3, -274)
 collision_layer = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
-position = Vector2(624, 359.5)
+position = Vector2(624, 359)
 shape = SubResource("RectangleShape2D_goot8")
 
 [node name="TextureRect" type="TextureRect" parent="Platform/CollisionShape2D"]

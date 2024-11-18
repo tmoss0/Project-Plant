@@ -18,10 +18,10 @@ var abilites_unlocked = {
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("grapple"):
-		grappling_hook.shoot_grapple()
+		grappling_hook.shoot_grapple(delta)
 
 	if grappling_hook.is_hook_traveling:
-		grappling_hook.update_traveling_hook(delta)
+		grappling_hook.update_traveling_grapple(delta)
 	elif grappling_hook.is_hook_attached:
 		grappling_hook.handle_grappled_player_movement(delta)
 	else:
