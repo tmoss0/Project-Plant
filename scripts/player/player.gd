@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 	if grappling_hook.is_hook_traveling:
 		grappling_hook.update_traveling_hook(delta)
 	elif grappling_hook.is_hook_attached:
-		grappling_hook.handle_grapple_movement(delta)
+		grappling_hook.handle_grappled_player_movement(delta)
 	else:
 		handle_normal_movement(delta)
 	
