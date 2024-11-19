@@ -52,7 +52,7 @@ func _ready():
 
 # Process input from player
 func _process(delta: float):
-	if Input.is_action_just_pressed("jump") and is_hook_attached:
+	if Input.is_action_just_pressed("grapple") and is_hook_attached:
 		release_grapple()
 
 # Physics-based updates for grapple mechanices
