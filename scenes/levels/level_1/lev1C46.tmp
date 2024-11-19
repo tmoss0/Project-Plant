@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnnoudi50uj8t"]
+
+[ext_resource type="PackedScene" uid="uid://dopsbp4nqkliw" path="res://scenes/characters/player.tscn" id="1_8dtx3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_goot8"]
+size = Vector2(936, 49)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vu4xg"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3wsqq"]
+distance = -109.0
+
+[node name="Level1" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_8dtx3")]
+position = Vector2(548, 284)
+
+[node name="Platform" type="StaticBody2D" parent="."]
+position = Vector2(-3, -274)
+collision_layer = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+position = Vector2(624, 359.5)
+shape = SubResource("RectangleShape2D_goot8")
+
+[node name="TextureRect" type="TextureRect" parent="Platform/CollisionShape2D"]
+offset_left = -469.0
+offset_top = -24.5
+offset_right = -429.0
+offset_bottom = 15.5
+scale = Vector2(23.4277, 1.20678)
+texture = SubResource("CanvasTexture_vu4xg")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(551, 300)
+shape = SubResource("WorldBoundaryShape2D_3wsqq")
+
+[node name="TextureRect" type="TextureRect" parent="Floor/CollisionShape2D"]
+offset_left = -369.0
+offset_top = 110.0
+offset_right = -329.0
+offset_bottom = 150.0
+scale = Vector2(23.4277, 1.20678)
+texture = SubResource("CanvasTexture_vu4xg")
