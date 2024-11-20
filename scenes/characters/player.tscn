@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dopsbp4nqkliw"]
+[gd_scene load_steps=21 format=3 uid="uid://dopsbp4nqkliw"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_usb8g"]
 [ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/player/grappling_hook.gd" id="2_rwc6h"]
 [ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/character/Jump (32x32).png" id="4_8gk2l"]
 [ext_resource type="Texture2D" uid="uid://8xfvdmb00wwk" path="res://assets/textures/grapple/hook.png" id="5_4pidl"]
+[ext_resource type="Script" path="res://scripts/player/burrow_state.gd" id="7_pbip8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxbb7"]
 
@@ -140,3 +141,9 @@ animation = &"jump"
 autoplay = "idle"
 
 [node name="CoyoteTimer" type="Timer" parent="."]
+
+[node name="BurrowState" type="Node" parent="."]
+script = ExtResource("7_pbip8")
+
+[connection signal="burrow_ended" from="BurrowState" to="." method="_on_burrow_ended"]
+[connection signal="burrow_started" from="BurrowState" to="." method="_on_burrow_started"]
