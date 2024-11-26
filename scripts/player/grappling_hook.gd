@@ -51,7 +51,7 @@ func _ready():
 	grapple_raycast.exclude_parent = true
 
 # Process input from player
-func _process(delta: float):
+func _process(_delta: float):
 	if Input.is_action_just_pressed("jump") and is_hook_attached:
 		release_grapple()
 
@@ -152,7 +152,7 @@ func handle_grappled_player_movement(delta: float):
 			character.velocity = tangent * character.velocity.dot(tangent)
 
 # Shoot the grappling hook
-func shoot_grapple(delta: float):
+func shoot_grapple(_delta: float):
 	if is_hook_attached or is_hook_traveling:
 		return
 

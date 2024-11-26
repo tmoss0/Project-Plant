@@ -120,6 +120,8 @@ SPEED = 415.0
 [node name="GrapplingHook" type="Node2D" parent="."]
 script = ExtResource("2_rwc6h")
 HOOK_TRAVEL_SPEED = 1000.0
+PULL_SPEED = 750.0
+SWING_SPEED = 300.0
 
 [node name="GrappleRaycast" type="RayCast2D" parent="GrapplingHook"]
 collision_mask = 6
@@ -144,6 +146,8 @@ autoplay = "idle"
 
 [node name="BurrowState" type="Node" parent="."]
 script = ExtResource("7_pbip8")
+burrow_slide_depth = 20.0
+burrow_slide_speed = 10.0
 
 [connection signal="burrow_ended" from="BurrowState" to="." method="_on_burrow_ended"]
 [connection signal="burrow_started" from="BurrowState" to="." method="_on_burrow_started"]

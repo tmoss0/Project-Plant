@@ -11,26 +11,26 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var burrow_state = $BurrowState
 
 var abilites_unlocked = {
-	"grappling": false,
-	"climbing": false,
-	"burrowing": false,
-	"thorns": false
+	"grappling": true,
+	"climbing": true,
+	"burrowing": true,
+	"thorns": true
 }
 
-func _ready() -> void:
-	burrow_state.burrow_started.connect(_on_burrow_started)
-	burrow_state.burrow_ended.connect(_on_burrow_ended)
-
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("grapple"):
+	# Grappling hook handlers
+	if Input.is_action_just_pressed("grapple") and abilites_unlocked["grappling"] and !burrow_state.is_burrowed:
 		grappling_hook.shoot_grapple(delta)
-
 	if grappling_hook.is_hook_traveling:
 		grappling_hook.update_traveling_grapple(delta)
 	elif grappling_hook.is_hook_attached:
 		grappling_hook.handle_grappled_player_movement(delta)
 	else:
 		handle_normal_movement(delta)
+		
+	# Burrow handling
+	if Input.is_action_just_pressed("burrow") and abilites_unlocked["burrowing"] and burrow_state.can_burrow and !burrow_state.is_burrowed:
+		burrow_state.start_burrow()
 	
 	move_and_slide()
 	update_animations()
@@ -60,16 +60,23 @@ func handle_normal_movement(delta: float) -> void:
 		coyote_timer.start()
 
 func update_animations() -> void:
+	# Burrow animations
 	if burrow_state.is_burrowed:
 		if sprite.sprite_frames.has_animation("burrow"):
-			sprite.play("burrow")
-		return
+			if sprite.animation != "burrow":
+				sprite.play("burrow")
+		else:
+			sprite.position.y = lerp(sprite.position.y, burrow_state.burrow_slide_depth, burrow_state.burrow_slide_speed * get_physics_process_delta_time())
+	else:
+		sprite.position.y = lerp(sprite.position.y, 0.0, burrow_state.burrow_slide_speed * get_physics_process_delta_time())
 	
+	# Grapple animations
 	if grappling_hook.is_hook_attached:
 		if sprite.sprite_frames.has_animation("grapple"):
 			sprite.play("grapple")
 		return
 
+	# Jumping and falling animations
 	if !is_on_floor():
 		if velocity.y < 0:
 			if sprite.animation != "jump":
