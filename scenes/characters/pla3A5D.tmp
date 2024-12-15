@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dopsbp4nqkliw"]
+[gd_scene load_steps=24 format=3 uid="uid://dopsbp4nqkliw"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_usb8g"]
 [ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
@@ -6,13 +6,10 @@
 [ext_resource type="Script" path="res://scripts/player/grappling_hook.gd" id="2_rwc6h"]
 [ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/character/Jump (32x32).png" id="4_8gk2l"]
 [ext_resource type="Texture2D" uid="uid://8xfvdmb00wwk" path="res://assets/textures/grapple/hook.png" id="5_4pidl"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/state_machine.gd" id="7_10f5o"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/idle.gd" id="8_jfaem"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/jumping.gd" id="9_dkx53"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/moving.gd" id="10_xjwcw"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/grappling.gd" id="11_p82qx"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/burrowing.gd" id="12_2sqik"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/falling.gd" id="13_co4vw"]
+[ext_resource type="Script" path="res://scripts/player/burrow_state.gd" id="7_pbip8"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/idle_state.gd" id="8_6uft7"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/grappling_state.gd" id="9_kn64g"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/burrowing_state.gd" id="10_0vlll"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxbb7"]
 
@@ -121,6 +118,8 @@ animations = [{
 position = Vector2(-1, 0)
 collision_mask = 2
 script = ExtResource("1_usb8g")
+SPEED = 415.0
+JUMP_VELOCITY = null
 
 [node name="GrapplingHook" type="Node2D" parent="."]
 script = ExtResource("2_rwc6h")
@@ -149,23 +148,21 @@ autoplay = "idle"
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("7_10f5o")
+[node name="BurrowState" type="Node" parent="."]
+script = ExtResource("7_pbip8")
+burrow_slide_depth = 20.0
+burrow_slide_speed = 10.0
 
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("8_jfaem")
+[node name="State" type="Node" parent="."]
 
-[node name="Jumping" type="Node" parent="StateMachine"]
-script = ExtResource("9_dkx53")
+[node name="IdleState" type="Node2D" parent="State"]
+script = ExtResource("8_6uft7")
 
-[node name="Moving" type="Node" parent="StateMachine"]
-script = ExtResource("10_xjwcw")
+[node name="GrapplingState" type="Node2D" parent="State"]
+script = ExtResource("9_kn64g")
 
-[node name="Grappling" type="Node" parent="StateMachine"]
-script = ExtResource("11_p82qx")
+[node name="BurrowingState" type="Node2D" parent="State"]
+script = ExtResource("10_0vlll")
 
-[node name="Burrowing" type="Node" parent="StateMachine"]
-script = ExtResource("12_2sqik")
-
-[node name="Falling" type="Node" parent="StateMachine"]
-script = ExtResource("13_co4vw")
+[connection signal="burrow_ended" from="BurrowState" to="." method="_on_burrow_ended"]
+[connection signal="burrow_started" from="BurrowState" to="." method="_on_burrow_started"]
