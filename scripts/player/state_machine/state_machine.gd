@@ -15,7 +15,7 @@ func _ready() -> void:
 		
 	# State machines usually access data form the root node of the scene they're
 	# part of: the owner
-	# We wait for the owner to be ready to guarantee all teh data and nodes the 
+	# We wait for the owner to be ready to guarantee all the data and nodes the 
 	# states may need are available.
 	await owner.ready
 	state.enter("")

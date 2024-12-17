@@ -45,15 +45,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		#velocity.y = JUMP_VELOCITY
 		#sprite.play("jump")
 		#coyote_timer.stop()
-	#
-	## Handle horizontal movement
-	#var direction := Input.get_axis("move_left", "move_right")
-	#if direction:
-		#velocity.x = direction * SPEED
-		#sprite.flip_h = direction < 0
-	#else:
-		#velocity.x = 0
-#
+
 	## Start coyote timer when leaving the ground
 	#if !burrow_state.is_burrowed and !is_on_floor() and was_on_floor():
 		#coyote_timer.start()

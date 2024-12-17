@@ -11,7 +11,7 @@ func handle_input(_event: InputEvent) -> void:
 func update(_delta: float) -> void:
 	pass
 	
-## Called by state machine on engine's physics udpate tick
+## Called by state machine on engine's physics update tick
 func physics_update(_delta: float) -> void:
 	pass
 	

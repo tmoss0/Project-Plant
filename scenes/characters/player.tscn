@@ -124,9 +124,7 @@ script = ExtResource("1_usb8g")
 
 [node name="GrapplingHook" type="Node2D" parent="."]
 script = ExtResource("2_rwc6h")
-HOOK_TRAVEL_SPEED = 1000.0
-PULL_SPEED = 750.0
-SWING_SPEED = 300.0
+HOOK_TRAVEL_SPEED = 800.0
 
 [node name="GrappleRaycast" type="RayCast2D" parent="GrapplingHook"]
 collision_mask = 6

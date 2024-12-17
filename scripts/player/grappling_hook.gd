@@ -93,7 +93,7 @@ func update_grapple_aim_line():
 func update_traveling_grapple(delta: float):
 	var direction = (grapple_point_position - hook_position).normalized()
 	var next_position = hook_position + direction * HOOK_TRAVEL_SPEED * delta
-	
+
 	# Check if hook has reach maximum distance
 	if next_position.distance_to(global_position) >= MAX_GRAPPLE_DISTANCE:
 		release_grapple()
@@ -101,7 +101,7 @@ func update_traveling_grapple(delta: float):
 
 	hook_position += direction * HOOK_TRAVEL_SPEED * delta
 	hook_sprite.global_position = hook_position
-	
+
 	#print("Direction: ", direction)
 	#print("Position: ", hook_position)
 	#print("")
@@ -152,21 +152,21 @@ func handle_grappled_player_movement(delta: float):
 			character.velocity = tangent * character.velocity.dot(tangent)
 
 # Shoot the grappling hook
-func shoot_grapple(_delta: float):
+func shoot_grapple():
 	if is_hook_attached or is_hook_traveling:
 		return
 
 	# Set initial hook position
 	hook_position = global_position
-	
+
 	# Initialize the grapple target
 	initiate_traveling_grapple()
-	
+
 	# Begin hook travel
 	is_hook_traveling = true
 	hook_sprite.visible =  true
 	grapple_line.visible = true
-	
+
 # Get initial values for traveling grapple
 func initiate_traveling_grapple():
 	# Get direction and distance to the mouse position
@@ -175,7 +175,7 @@ func initiate_traveling_grapple():
 
 	print("Grapple direction: ", grapple_direction)
 	print("Grapple distance: ", grapple_distance)
-	
+
 	# Default to traveling towards the max distance
 	grapple_point_position = global_position + grapple_direction * grapple_distance
 
@@ -203,7 +203,7 @@ func get_grapple_distance_and_direction() -> Dictionary:
 		var hit_collider = grapple_raycast.get_collider()
 		if check_grapple_hit_valid_surface(hit_collider):
 			distance = min(global_position.distance_to(grapple_raycast.get_collision_point()), MAX_GRAPPLE_DISTANCE)
-			
+
 	#print("Hit: ", hit)
 	#print("Distance: ", distance)
 	#print("")
@@ -226,11 +226,11 @@ func activate_grapple_raycast(direction: Vector2, distance: float) -> Dictionary
 		"hit": hit,
 		"collision_point": collision_point
 	}
-	
+
 # Check if grapple contacts a valid surface to attach
 func check_grapple_hit_valid_surface(hit_collider) -> bool:
 	return hit_collider.collision_layer & LAYERS[COLLISION_SURFACE] != 0
-	
+
 # Update visuals of teh grapple line
 func update_grapple_line():
 	if is_hook_attached or is_hook_traveling:

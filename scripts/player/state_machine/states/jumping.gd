@@ -1,6 +1,6 @@
 #region Code Explanation
 """
-Calculate the vertical velocity as well as the horizonatal movement so the 
+Calculate the vertical velocity as well as the horizonatal movement so the
 player is still able to control movement in the air
 """
 #endregion
@@ -20,3 +20,5 @@ func physics_update(_delta: float) -> void:
 
 	if player.velocity.y >= 0:
 		finished.emit(FALLING)
+	elif Input.is_action_pressed("grapple"):
+		finished.emit(GRAPPLING)
