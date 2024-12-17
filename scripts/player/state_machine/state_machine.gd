@@ -13,7 +13,7 @@ func _ready() -> void:
 	for state_node: State in find_children("*", "State"):
 		state_node.finished.connect(_transition_to_next_state)
 		
-	# State machiens usually access data form the root node of the scene they're
+	# State machines usually access data form the root node of the scene they're
 	# part of: the owner
 	# We wait for the owner to be ready to guarantee all teh data and nodes the 
 	# states may need are available.
@@ -21,6 +21,7 @@ func _ready() -> void:
 	state.enter("")
 
 func _transition_to_next_state(target_state_path: String, data: Dictionary = {}) -> void:
+	print("Current state: " + target_state_path)
 	if not has_node(target_state_path):
 		printerr(owner.name + ": Trying to transition to state " + target_state_path + " but it doest not exist.")
 		return

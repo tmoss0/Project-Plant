@@ -1,0 +1,171 @@
+[gd_scene load_steps=27 format=3 uid="uid://dopsbp4nqkliw"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_usb8g"]
+[ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
+[ext_resource type="Texture2D" uid="uid://dioj0oaoqqa5m" path="res://assets/textures/character/Idle (32x32).png" id="2_kvbms"]
+[ext_resource type="Script" path="res://scripts/player/grappling_hook.gd" id="2_rwc6h"]
+[ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/character/Jump (32x32).png" id="4_8gk2l"]
+[ext_resource type="Texture2D" uid="uid://8xfvdmb00wwk" path="res://assets/textures/grapple/hook.png" id="5_4pidl"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/state_machine.gd" id="7_10f5o"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/states/idle.gd" id="8_jfaem"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/states/jumping.gd" id="9_dkx53"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/states/moving.gd" id="10_xjwcw"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/states/grappling.gd" id="11_p82qx"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/states/burrowing.gd" id="12_2sqik"]
+[ext_resource type="Script" path="res://scripts/player/state_machine/states/falling.gd" id="13_co4vw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxbb7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3p22"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4g7v4"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4ipt"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ie5ux"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2w2rr"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sujqb"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5p00"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhj1o"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dgdhj"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1iu0b"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogy3j"]
+atlas = ExtResource("2_kvbms")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2vuod"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jbnev")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3p22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4g7v4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4ipt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ie5ux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2w2rr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sujqb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5p00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhj1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dgdhj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1iu0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogy3j")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_8gk2l")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 20.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(-1, 0)
+collision_mask = 2
+script = ExtResource("1_usb8g")
+
+[node name="GrapplingHook" type="Node2D" parent="."]
+script = ExtResource("2_rwc6h")
+HOOK_TRAVEL_SPEED = 1000.0
+PULL_SPEED = 750.0
+SWING_SPEED = 300.0
+
+[node name="GrappleRaycast" type="RayCast2D" parent="GrapplingHook"]
+collision_mask = 6
+collide_with_areas = true
+
+[node name="GrappleLine" type="Line2D" parent="GrapplingHook"]
+
+[node name="GrappleAimLine" type="Line2D" parent="GrapplingHook"]
+
+[node name="HookSprite" type="Sprite2D" parent="GrapplingHook"]
+texture = ExtResource("5_4pidl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_oxbb7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2vuod")
+animation = &"jump"
+autoplay = "idle"
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("7_10f5o")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("8_jfaem")
+
+[node name="Jumping" type="Node" parent="StateMachine"]
+script = ExtResource("9_dkx53")
+
+[node name="Moving" type="Node" parent="StateMachine"]
+script = ExtResource("10_xjwcw")
+
+[node name="Grappling" type="Node" parent="StateMachine"]
+script = ExtResource("11_p82qx")
+
+[node name="Burrowing" type="Node" parent="StateMachine"]
+script = ExtResource("12_2sqik")
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource("13_co4vw")

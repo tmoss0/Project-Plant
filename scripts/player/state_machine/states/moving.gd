@@ -1,3 +1,9 @@
+#region Code Explanation
+"""
+Move the player based on the user's input
+"""
+#endregion
+
 extends PlayerState
 
 func enter(previous_state_path: String, data := {}) -> void:
@@ -13,3 +19,7 @@ func physics_update(delta: float) -> void:
 	
 	if not player.is_on_floor():
 		finished.emit(FALLING)
+	elif Input.is_action_pressed("jump"):
+		finished.emit(JUMPING)
+	elif is_equal_approx(input_direction_x, 0.0):
+		finished.emit(IDLE)

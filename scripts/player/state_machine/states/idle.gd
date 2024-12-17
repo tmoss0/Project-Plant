@@ -1,3 +1,10 @@
+#region Code Explanation
+"""
+The player will be able to fall (downward if on a higher platform), jump up and 
+horizontally
+"""
+#endregion
+
 extends PlayerState
 
 func enter(previous_state_path: String, data := {}) -> void:
@@ -11,3 +18,5 @@ func physics_update(_delta: float) -> void:
 		finished.emit(FALLING)
 	elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		finished.emit(MOVING)
+	elif Input.is_action_pressed("jump"):
+		finished.emit(JUMPING)
