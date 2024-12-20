@@ -12,6 +12,7 @@ const MOVING = "Moving"
 const GRAPPLING = "Grappling"
 const BURROWING = "Burrowing"
 const FALLING = "Falling"
+const GRAPPLED = "Grappled"
 
 var player: Player
 

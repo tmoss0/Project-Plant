@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dopsbp4nqkliw"]
+[gd_scene load_steps=27 format=3 uid="uid://dopsbp4nqkliw"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_usb8g"]
 [ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
@@ -12,7 +12,6 @@
 [ext_resource type="Script" path="res://scripts/player/state_machine/states/moving.gd" id="10_xjwcw"]
 [ext_resource type="Script" path="res://scripts/player/state_machine/states/grappling.gd" id="11_p82qx"]
 [ext_resource type="Script" path="res://scripts/player/state_machine/states/burrowing.gd" id="12_2sqik"]
-[ext_resource type="Script" path="res://scripts/player/state_machine/states/grappled.gd" id="12_vag3u"]
 [ext_resource type="Script" path="res://scripts/player/state_machine/states/falling.gd" id="13_co4vw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oxbb7"]
@@ -162,9 +161,6 @@ script = ExtResource("10_xjwcw")
 
 [node name="Grappling" type="Node" parent="StateMachine"]
 script = ExtResource("11_p82qx")
-
-[node name="Grappled" type="Node" parent="StateMachine"]
-script = ExtResource("12_vag3u")
 
 [node name="Burrowing" type="Node" parent="StateMachine"]
 script = ExtResource("12_2sqik")

@@ -1,7 +1,7 @@
 ## Base class for all the player states
 class_name State extends Node
 
-signal finished(next_state_path: String, data: Dictionary)
+signal finished(_next_state_path: String, _data: Dictionary)
 
 ## Called by state machine when receiving unhandled input events
 func handle_input(_event: InputEvent) -> void:
@@ -18,7 +18,7 @@ func physics_update(_delta: float) -> void:
 ## Called by state machine upon changing the active state. 
 ## Data parameter is a dict with arbitray data the state can 
 ## use to initialize itself
-func enter(previous_state_path: String, data := {}) -> void:
+func enter(_previous_state_path: String, _data := {}) -> void:
 	pass
 	
 ## Called by state machine before changing the active state

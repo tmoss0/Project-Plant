@@ -1,12 +1,11 @@
-class_name GrapplingHook
-extends Node2D
+class_name GrapplingHook extends Node2D
 
 # Grapple behavior settings
-@export var MAX_GRAPPLE_DISTANCE = 400.0
-@export var HOOK_TRAVEL_SPEED = 20.0
-@export var PULL_SPEED = 1000.0
-@export var SWING_SPEED = 500.0
-@export var COLLISION_SURFACE = "GRAPPLESURFACE"
+@export var MAX_GRAPPLE_DISTANCE := 400.0
+@export var HOOK_TRAVEL_SPEED := 20.0
+@export var PULL_SPEED := 1000.0
+@export var SWING_SPEED := 500.0
+@export var COLLISION_SURFACE := "GRAPPLESURFACE"
 
 # Grapple state variables
 var grapple_point_position: Vector2 = Vector2.ZERO
@@ -32,7 +31,6 @@ func _init():
 		if layer_name:
 			LAYERS[layer_name.to_upper()] = 1 << (i - 1)
 
-
 func _ready():
 	# Setup visuals for grapple line
 	grapple_line.width = 2
@@ -55,7 +53,7 @@ func _process(_delta: float):
 	if Input.is_action_just_pressed("jump") and is_hook_attached:
 		release_grapple()
 
-# Physics-based updates for grapple mechanices
+## Physics-based updates for grapple mechanices
 func _physics_process(_delta: float):
 	update_grapple_aim_line()
 
@@ -129,11 +127,13 @@ func update_traveling_grapple(delta: float):
 			release_grapple()
 			return
 
-# Moves the grapple line towards the target
+## Moves the grapple line towards the target
 func handle_grappled_player_movement(delta: float):
 	# Distance between character and grapple
+	print("Handle grappled player movement")
 	var to_grapple = grapple_point_position - character.global_position
 	var grapple_distance = to_grapple.length()
+	
 	# Update hook visual position
 	hook_sprite.global_position = grapple_point_position
 
@@ -146,10 +146,11 @@ func handle_grappled_player_movement(delta: float):
 		character.velocity += perpendicular * move_direction * SWING_SPEED * delta
 		character.velocity += Vector2.DOWN * character.gravity * delta * 0.5
 
-		if grapple_distance > grapple_rope_length:
-			character.global_position = character.global_position.lerp(grapple_point_position - to_grapple.normalized() * grapple_rope_length, delta * 10)
-			var tangent = to_grapple.rotated(PI / 2).normalized()
-			character.velocity = tangent * character.velocity.dot(tangent)
+	if grapple_distance > grapple_rope_length:
+		character.global_position = character.global_position.lerp(grapple_point_position - to_grapple.normalized() * grapple_rope_length, delta * 10)
+		# Adjust velocity to align with the tangent of the rope
+		var tangent = to_grapple.rotated(PI / 2).normalized()
+		character.velocity = tangent * character.velocity.dot(tangent)
 
 # Shoot the grappling hook
 func shoot_grapple():
