@@ -6,7 +6,7 @@ Move the player based on the user's input
 
 extends PlayerState
 
-func enter(previous_state_path: String, data := {}) -> void:
+func enter(_add_named_global_constantprevious_state_path: String, _data := {}) -> void:
 	# Input animation for movement
 	pass
 

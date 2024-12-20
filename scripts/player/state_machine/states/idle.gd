@@ -7,7 +7,7 @@ horizontally
 
 extends PlayerState
 
-func enter(previous_state_path: String, data := {}) -> void:
+func enter(_previous_state_path: String, _data := {}) -> void:
 	player.velocity.x = 0.0
 
 func physics_update(_delta: float) -> void:
