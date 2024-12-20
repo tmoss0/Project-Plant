@@ -144,7 +144,7 @@ autoplay = "idle"
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 
-[node name="BurrowState" type="Node" parent="."]
+[node name="BurrowState" type="Node2D" parent="."]
 script = ExtResource("7_pbip8")
 burrow_slide_depth = 20.0
 burrow_slide_speed = 10.0

@@ -230,7 +230,7 @@ func activate_grapple_raycast(direction: Vector2, distance: float) -> Dictionary
 func check_grapple_hit_valid_surface(hit_collider) -> bool:
 	return hit_collider.collision_layer & LAYERS[COLLISION_SURFACE] != 0
 	
-# Update visuals of teh grapple line
+# Update visuals of the grapple line
 func update_grapple_line():
 	if is_hook_attached or is_hook_traveling:
 		grapple_line.points = PackedVector2Array([Vector2.ZERO, to_local(hook_sprite.global_position)])

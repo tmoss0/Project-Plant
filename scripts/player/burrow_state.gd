@@ -1,5 +1,4 @@
-class_name BurrowState
-extends Node
+class_name BurrowState extends Node2D
 
 signal burrow_started
 signal burrow_ended
