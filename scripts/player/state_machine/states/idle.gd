@@ -22,3 +22,5 @@ func physics_update(_delta: float) -> void:
 		finished.emit(JUMPING)
 	elif Input.is_action_pressed("grapple"):
 		finished.emit(GRAPPLING)
+	elif Input.is_action_pressed("burrow"):
+		finished.emit(BURROWING)
