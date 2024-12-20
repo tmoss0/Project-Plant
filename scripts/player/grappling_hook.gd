@@ -1,12 +1,11 @@
-class_name GrapplingHook
-extends Node2D
+class_name GrapplingHook extends Node2D
 
 # Grapple behavior settings
-@export var MAX_GRAPPLE_DISTANCE = 400.0
-@export var HOOK_TRAVEL_SPEED = 20.0
-@export var PULL_SPEED = 1000.0
-@export var SWING_SPEED = 500.0
-@export var COLLISION_SURFACE = "GRAPPLESURFACE"
+@export var MAX_GRAPPLE_DISTANCE := 400.0
+@export var HOOK_TRAVEL_SPEED := 20.0
+@export var PULL_SPEED := 1000.0
+@export var SWING_SPEED := 500.0
+@export var COLLISION_SURFACE := "GRAPPLESURFACE"
 
 # Grapple state variables
 var grapple_point_position: Vector2 = Vector2.ZERO

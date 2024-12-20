@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var SPEED = 300.0
-@export var JUMP_VELOCITY = -400.0
+@export var SPEED := 300.0
+@export var JUMP_VELOCITY := -400.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -29,8 +29,9 @@ func _physics_process(delta: float) -> void:
 		handle_normal_movement(delta)
 		
 	# Burrow handling
-	if Input.is_action_just_pressed("burrow") and abilites_unlocked["burrowing"] and burrow_state.can_burrow and !burrow_state.is_burrowed:
+	if Input.is_action_just_pressed("burrow") and abilites_unlocked["burrowing"] and burrow_state.can_burrow and !burrow_state.is_burrowed and !grappling_hook.is_hook_attached and !grappling_hook.is_hook_traveling:
 		burrow_state.start_burrow()
+		grappling_hook.release_grapple()
 	
 	move_and_slide()
 	update_animations()
@@ -42,10 +43,11 @@ func handle_normal_movement(delta: float) -> void:
 		velocity.y += gravity * delta
 
 	# Handle jump (disable while burrowed)
-	if Input.is_action_just_pressed("jump") and !burrow_state.is_burrowed and (is_on_floor() or !coyote_timer.is_stopped()):
-		velocity.y = JUMP_VELOCITY
-		sprite.play("jump")
-		coyote_timer.stop()
+	if Input.is_action_just_pressed("jump") and !burrow_state.is_burrowed:
+		if is_on_floor() or !coyote_timer.is_stopped():
+			velocity.y = JUMP_VELOCITY
+			sprite.play("jump")
+			coyote_timer.stop()
 	
 	# Handle horizontal movement
 	var direction := Input.get_axis("move_left", "move_right")
