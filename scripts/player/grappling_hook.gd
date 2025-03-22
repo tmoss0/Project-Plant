@@ -1,10 +1,48 @@
+#region Docstring
+"""
+Grappling_Hook.gd
+
+The player can shoot a grappling hook towards a target, and if the hook collides with a valid surface, 
+it pulls the player towards the target. Once the player reaches the target, the grapple is automatically released.
+
+### Functions:
+- `_init()`: Initializes collision layers based on project settings.
+- `_ready()`: Configures visuals and initializes node references.
+- `_process(delta)`: Handles input for releasing the grapple.
+- `_physics_process(delta)`: Updates the grappling hook's state and visuals during physics updates.
+- `shoot_grapple()`: Shoots the grappling hook towards the mouse pointer and checks for valid surfaces.
+- `update_traveling_grapple(delta)`: Updates the hook's position while it is traveling towards the target.
+- `handle_grappled_player_movement(delta)`: Pulls the player towards the grapple point and releases the grapple upon arrival.
+- `release_grapple()`: Resets the grappling hook's state and hides visuals.
+- `update_grapple_aim_line()`: Updates the visual aim line to indicate where the hook will travel.
+- `update_grapple_line()`: Updates the visual line connecting the player and the hook.
+- `get_grapple_distance_and_direction()`: Calculates the direction and distance to the mouse pointer.
+- `activate_grapple_raycast(direction, distance)`: Fires a raycast to check for collisions along the grapple's path.
+- `check_grapple_hit_valid_surface(hit_collider)`: Verifies if the grapple collided with a valid surface.
+
+### Variables:
+- `MAX_GRAPPLE_DISTANCE`: Maximum distance the grappling hook can travel.
+- `HOOK_TRAVEL_SPEED`: Speed at which the hook travels.
+- `PULL_SPEED`: Speed at which the player is pulled towards the grapple point.
+- `COLLISION_SURFACE`: Name of the collision layer the hook can attach to.
+- `LAYERS`: Dictionary mapping collision layer names to bit masks.
+- `grapple_point_position`: Position of the grapple point where the hook attaches.
+- `is_hook_traveling`: Whether the hook is currently traveling.
+- `is_hook_attached`: Whether the hook is attached to a surface.
+- `hook_position`: Current position of the hook while traveling.
+- `grapple_rope_length`: Distance between the player and the grapple point.
+
+This script is designed to be attached to a `Node2D` and assumes the presence of specific child nodes
+(e.g., `RayCast2D`, `Line2D`, `Sprite2D`) for visuals and collision detection.
+"""
+#endregion
+
 class_name GrapplingHook extends Node2D
 
 # Grapple behavior settings
 @export var MAX_GRAPPLE_DISTANCE := 400.0
 @export var HOOK_TRAVEL_SPEED := 20.0
 @export var PULL_SPEED := 1000.0
-@export var SWING_SPEED := 500.0
 @export var COLLISION_SURFACE := "GRAPPLESURFACE"
 
 # Grapple state variables
@@ -13,6 +51,8 @@ var is_hook_traveling: bool = false
 var is_hook_attached: bool = false
 var hook_position: Vector2 = Vector2.ZERO
 var grapple_rope_length: float = 0.0
+
+const enable_debug = true
 
 # Collision layers for 2D Physics
 var LAYERS = {}
@@ -26,11 +66,10 @@ var LAYERS = {}
 
 func _init():
 	# Initialize collision layers using project settings
-	for i in range(1, 5):  # Layers 1-4
-		var layer_name = ProjectSettings.get_setting("layer_names/2d_physics/layer_" + str(i))
+	for layer in range(1, 5): # Layers 1-4
+		var layer_name = ProjectSettings.get_setting("layer_names/2d_physics/layer_" + str(layer))
 		if layer_name:
-			LAYERS[layer_name.to_upper()] = 1 << (i - 1)
-
+			LAYERS[layer_name.to_upper()] = 1 << (layer - 1)
 
 func _ready():
 	# Setup visuals for grapple line
@@ -46,7 +85,7 @@ func _ready():
 	hook_sprite.visible = false
 
 	# Configure raycast to detect specific surfaces
-	grapple_raycast.collision_mask = LAYERS.get(COLLISION_SURFACE, 0)  # Fallback to 0 if layer not found
+	grapple_raycast.collision_mask = LAYERS.get(COLLISION_SURFACE, 0) # Fallback to 0 if layer not found
 	grapple_raycast.exclude_parent = true
 
 # Process input from player
@@ -54,7 +93,7 @@ func _process(_delta: float):
 	if Input.is_action_just_pressed("jump") and is_hook_attached:
 		release_grapple()
 
-# Physics-based updates for grapple mechanices
+## Physics-based updates for grapple mechanices
 func _physics_process(_delta: float):
 	update_grapple_aim_line()
 
@@ -92,89 +131,79 @@ func update_grapple_aim_line():
 func update_traveling_grapple(delta: float):
 	var direction = (grapple_point_position - hook_position).normalized()
 	var next_position = hook_position + direction * HOOK_TRAVEL_SPEED * delta
-	
-	# Check if hook has reach maximum distance
-	if next_position.distance_to(global_position) >= MAX_GRAPPLE_DISTANCE:
-		release_grapple()
+
+	# Check if hook has reached the grapple point
+	if next_position.distance_to(global_position) >= MAX_GRAPPLE_DISTANCE or next_position.distance_to(grapple_point_position) <= HOOK_TRAVEL_SPEED * delta:
+		# Stop traveling and attach the hook
+		hook_position = grapple_point_position
+		is_hook_traveling = false
+		is_hook_attached = true
+		grapple_rope_length = character.global_position.distance_to(grapple_point_position)
 		return
 
 	hook_position += direction * HOOK_TRAVEL_SPEED * delta
 	hook_sprite.global_position = hook_position
-	
-	#print("Direction: ", direction)
-	#print("Position: ", hook_position)
-	#print("")
 
-	# Update raycast for collision check
-	grapple_raycast.global_position = hook_position
-	grapple_raycast.target_position = direction * HOOK_TRAVEL_SPEED * delta
-	grapple_raycast.force_raycast_update()
+	if enable_debug:
+		print("Direction: ", direction)
+		print("Position: ", hook_position)
 
-	# Check if hook collides with something
-	if grapple_raycast.is_colliding():
-		var hit_collider = grapple_raycast.get_collider()
-		# Grapple hits a valid surface within max distance
-		if hit_collider and check_grapple_hit_valid_surface(hit_collider):
-			var collision_point = grapple_raycast.get_collision_point()
-			# Only attach if collision point is with maximum distance
-			if collision_point.distance_to(global_position) <= MAX_GRAPPLE_DISTANCE:
-				grapple_point_position = grapple_raycast.get_collision_point()
-				is_hook_traveling = false
-				is_hook_attached = true
-				grapple_rope_length = character.global_position.distance_to(grapple_point_position)
-				return
-		# If collision hits invalid surface, release
-		elif not check_grapple_hit_valid_surface(hit_collider):
-			release_grapple()
-			return
-
-# Moves the grapple line towards the target
-func handle_grappled_player_movement(delta: float):
+## Moves the grapple line towards the target
+func handle_grappled_player_movement(_delta: float):
 	# Distance between character and grapple
 	var to_grapple = grapple_point_position - character.global_position
 	var grapple_distance = to_grapple.length()
+
 	# Update hook visual position
 	hook_sprite.global_position = grapple_point_position
 
-	if Input.is_action_pressed("grapple_pull"):
+	# Pull the player directly toward the grapple point
+	if grapple_distance > 10.0: # Small threshold to stop jittering
 		character.velocity = to_grapple.normalized() * PULL_SPEED
 	else:
-		var perpendicular = to_grapple.normalized().rotated(PI/2)
-		var move_direction = Input.get_axis("move_left", "move_right")
+		# Stop pulling and release the grapple when the player reaches the grapple point
+		character.velocity = Vector2.ZERO
+		release_grapple()
 
-		character.velocity += perpendicular * move_direction * SWING_SPEED * delta
-		character.velocity += Vector2.DOWN * character.gravity * delta * 0.5
-
-		if grapple_distance > grapple_rope_length:
-			character.global_position = character.global_position.lerp(grapple_point_position - to_grapple.normalized() * grapple_rope_length, delta * 10)
-			var tangent = to_grapple.rotated(PI / 2).normalized()
-			character.velocity = tangent * character.velocity.dot(tangent)
+	# Apply the velocity to the character
+	character.move_and_slide()
 
 # Shoot the grappling hook
-func shoot_grapple(_delta: float):
+func shoot_grapple():
 	if is_hook_attached or is_hook_traveling:
 		return
 
 	# Set initial hook position
 	hook_position = global_position
-	
-	# Initialize the grapple target
-	initiate_traveling_grapple()
-	
-	# Begin hook travel
-	is_hook_traveling = true
-	hook_sprite.visible =  true
-	grapple_line.visible = true
-	
+
+	# Get direction and distance to the mouse position
+	var grapple_direction = get_grapple_distance_and_direction().direction
+	var grapple_distance = min(get_grapple_distance_and_direction().distance, MAX_GRAPPLE_DISTANCE)
+
+	# Activate raycast to check for a valid surface
+	var raycast_result = activate_grapple_raycast(grapple_direction, grapple_distance)
+	if raycast_result.hit and check_grapple_hit_valid_surface(grapple_raycast.get_collider()):
+		# Set the grapple point position to the collision point
+		grapple_point_position = raycast_result.collision_point
+
+		# Begin hook travel
+		is_hook_traveling = true
+		hook_sprite.visible = true
+		grapple_line.visible = true
+	else:
+		# Do nothing if no valid surface is detected
+		return
+
 # Get initial values for traveling grapple
 func initiate_traveling_grapple():
 	# Get direction and distance to the mouse position
 	var grapple_direction = get_grapple_distance_and_direction().direction
 	var grapple_distance = min(get_grapple_distance_and_direction().distance, MAX_GRAPPLE_DISTANCE)
 
-	print("Grapple direction: ", grapple_direction)
-	print("Grapple distance: ", grapple_distance)
-	
+	if enable_debug:
+		print("Grapple direction: ", grapple_direction)
+		print("Grapple distance: ", grapple_distance)
+
 	# Default to traveling towards the max distance
 	grapple_point_position = global_position + grapple_direction * grapple_distance
 
@@ -202,10 +231,11 @@ func get_grapple_distance_and_direction() -> Dictionary:
 		var hit_collider = grapple_raycast.get_collider()
 		if check_grapple_hit_valid_surface(hit_collider):
 			distance = min(global_position.distance_to(grapple_raycast.get_collision_point()), MAX_GRAPPLE_DISTANCE)
-			
-	#print("Hit: ", hit)
-	#print("Distance: ", distance)
-	#print("")
+
+	if enable_debug:
+		print("Hit: ", hit)
+		print("Distance: ", distance)
+		print("")
 
 	return {
 		"direction": direction,
@@ -217,20 +247,21 @@ func activate_grapple_raycast(direction: Vector2, distance: float) -> Dictionary
 	var hit = grapple_raycast.is_colliding()
 	var collision_point = grapple_raycast.get_collision_point() if hit else global_position + direction * distance
 
-	#print("Raycast Hit: ", hit)
-	#print("Collision object: ", collision_point)
-	#print("")
+	if enable_debug:
+		print("Raycast Hit: ", hit)
+		print("Collision object: ", collision_point)
+		print("")
 
 	return {
 		"hit": hit,
 		"collision_point": collision_point
 	}
-	
+
 # Check if grapple contacts a valid surface to attach
 func check_grapple_hit_valid_surface(hit_collider) -> bool:
 	return hit_collider.collision_layer & LAYERS[COLLISION_SURFACE] != 0
-	
-# Update visuals of the grapple line
+
+# Update visuals of teh grapple line
 func update_grapple_line():
 	if is_hook_attached or is_hook_traveling:
 		grapple_line.points = PackedVector2Array([Vector2.ZERO, to_local(hook_sprite.global_position)])
