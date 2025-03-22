@@ -13,10 +13,8 @@ func _ready() -> void:
 	for state_node: State in find_children("*", "State"):
 		state_node.finished.connect(_transition_to_next_state)
 		
-	# State machines usually access data form the root node of the scene they're
-	# part of: the owner
-	# We wait for the owner to be ready to guarantee all the data and nodes the 
-	# states may need are available.
+	# State machines usually access data form the root node of the scene they're part of: the owner
+	# We wait for the owner to be ready to guarantee all the data and nodes the states may need are available.
 	await owner.ready
 	state.enter("")
 

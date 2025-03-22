@@ -93,7 +93,7 @@ func _process(_delta: float):
 	if Input.is_action_just_pressed("jump") and is_hook_attached:
 		release_grapple()
 
-## Physics-based updates for grapple mechanices
+# Physics-based updates for grapple mechanics
 func _physics_process(_delta: float):
 	update_grapple_aim_line()
 
@@ -157,8 +157,11 @@ func handle_grappled_player_movement(_delta: float):
 	# Update hook visual position
 	hook_sprite.global_position = grapple_point_position
 
+	if enable_debug:
+		print("Grapple distance: ", grapple_distance)
+
 	# Pull the player directly toward the grapple point
-	if grapple_distance > 10.0: # Small threshold to stop jittering
+	if grapple_distance > 20.0: # Small threshold to stop jittering
 		character.velocity = to_grapple.normalized() * PULL_SPEED
 	else:
 		# Stop pulling and release the grapple when the player reaches the grapple point
@@ -261,7 +264,7 @@ func activate_grapple_raycast(direction: Vector2, distance: float) -> Dictionary
 func check_grapple_hit_valid_surface(hit_collider) -> bool:
 	return hit_collider.collision_layer & LAYERS[COLLISION_SURFACE] != 0
 
-# Update visuals of teh grapple line
+# Update visuals of the grapple line
 func update_grapple_line():
 	if is_hook_attached or is_hook_traveling:
 		grapple_line.points = PackedVector2Array([Vector2.ZERO, to_local(hook_sprite.global_position)])

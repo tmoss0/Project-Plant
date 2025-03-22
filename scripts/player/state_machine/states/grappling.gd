@@ -10,5 +10,4 @@ func physics_update(delta: float) -> void:
 	elif player.grappling_hook.is_hook_attached:
 		finished.emit(GRAPPLED)
 	else:
-		# If grapple is neither traveling nor attached, return to Idle/Falling
 		finished.emit(FALLING)
