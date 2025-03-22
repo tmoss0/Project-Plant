@@ -1,10 +1,3 @@
-#region Code Explanation
-"""
-Calculate the vertical velocity as well as the horizonatal movement so the
-player is still able to control movement in the air
-"""
-#endregion
-
 extends PlayerState
 
 func enter(_previous_state_path: String, _data := {}) -> void:

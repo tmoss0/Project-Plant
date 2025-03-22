@@ -119,9 +119,9 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(-1, 0)
 collision_mask = 2
 script = ExtResource("1_usb8g")
+speed = 325.0
 
 [node name="GrapplingHook" type="Node2D" parent="."]
 script = ExtResource("2_rwc6h")

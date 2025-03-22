@@ -10,9 +10,9 @@ const IDLE = "Idle"
 const JUMPING = "Jumping"
 const MOVING = "Moving"
 const GRAPPLING = "Grappling"
+const GRAPPLED = "Grappled"
 const BURROWING = "Burrowing"
 const FALLING = "Falling"
-const GRAPPLED = "Grappled"
 
 var player: Player
 
