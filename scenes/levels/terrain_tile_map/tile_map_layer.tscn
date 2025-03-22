@@ -1,9 +1,6 @@
-[gd_scene load_steps=4 format=4 uid="uid://wre8kk54hag3"]
-
-[ext_resource type="Texture2D" uid="uid://c52wehxd508ff" path="res://assets/textures/environment/Grass-Tilset.png" id="1_r3b0w"]
+[gd_scene load_steps=3 format=4 uid="uid://wre8kk54hag3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wwdah"]
-texture = ExtResource("1_r3b0w")
 1:1/0 = 0
 1:1/0/terrain_set = 0
 1:1/0/terrain = 0
