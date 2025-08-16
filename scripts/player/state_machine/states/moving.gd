@@ -15,12 +15,22 @@ func physics_update(delta: float) -> void:
 	player.move_and_slide()
 
 	if not player.is_on_floor():
+		if player.debug_mode:
+			print("Transitioning to falling state")
 		finished.emit(FALLING)
 	elif Input.is_action_pressed("jump"):
+		if player.debug_mode:
+			print("Transitioning to jumping state")
 		finished.emit(JUMPING)
 	elif Input.is_action_pressed("grapple"):
+		if player.debug_mode:
+			print("Transitioning to grappling state")
 		finished.emit(GRAPPLING)
 	elif Input.is_action_pressed("burrow"):
+		if player.debug_mode:
+			print("Transitioning to burrowing state")
 		finished.emit(BURROWING)
 	elif is_equal_approx(input_direction_x, 0.0):
+		if player.debug_mode:
+			print("Transitioning to idle state")
 		finished.emit(IDLE)

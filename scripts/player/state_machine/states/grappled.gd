@@ -1,7 +1,7 @@
 extends PlayerState
 
 func enter(_previous_state_path: String, _data := {}) -> void:
-	print("Entered Grappled State")
+	pass
 
 func physics_update(_delta: float) -> void:
 	# The GrapplingHookManager now handles movement and input internally

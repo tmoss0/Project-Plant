@@ -122,6 +122,7 @@ animations = [{
 collision_mask = 2
 script = ExtResource("1_usb8g")
 speed = 325.0
+debug_mode = true
 
 [node name="GrapplingHook" type="Node2D" parent="."]
 script = ExtResource("2_rwc6h")

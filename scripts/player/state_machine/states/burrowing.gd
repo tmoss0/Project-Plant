@@ -46,6 +46,7 @@ func _ready() -> void:
 	initial_sprite_position = sprite.position
 
 func enter(_previous_state_path: String, _data := {}) -> void:
+	print("Entered Burrowing State")
 	start_burrow()
 
 func handle_input(event: InputEvent) -> void:
