@@ -4,8 +4,10 @@ func enter(_previous_state_path: String, _data := {}) -> void:
 	print("Entered Grappled State")
 
 func physics_update(delta: float) -> void:
-	if player.grappling_hook.is_hook_attached:
-		player.grappling_hook.handle_grappled_player_movement(delta)
-	elif Input.is_action_pressed("jump"):
-		player.grappling_hook.release_grapple()
+	# The GrapplingHookManager now handles movement and input internally
+	if player.grappling_hook.is_hook_attached():
+		# Manager handles pulling the player and auto-release
+		pass
+	else:
+		# Grapple has been released, transition to falling
 		finished.emit(FALLING)
