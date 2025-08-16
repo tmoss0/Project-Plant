@@ -1,34 +1,3 @@
-#region Docstring
-"""
-Burrowing.gd
-
-The player can burrow into the ground, move while burrowed, and emerge after a set duration or upon player input. 
-While burrowed, the player has reduced speed and cannot interact with certain objects.
-
-### Functions:
-- `_ready()`: Initializes references to the player's sprite and stores its initial position.
-- `enter(previous_state_path, data)`: Called when entering the burrowing state; starts the burrow animation.
-- `handle_input(event)`: Handles player input to cancel burrowing and start emerging.
-- `physics_update(delta)`: Updates the player's movement and handles the burrowing timer and sliding effect.
-- `handle_movement(delta)`: Handles horizontal movement and applies speed modifiers based on the burrowing state.
-- `handle_animation(delta)`: Updates the burrowing/emerging animation based on the animation timer.
-- `complete_animation()`: Completes the current animation and transitions the player to the appropriate state.
-- `start_burrow()`: Starts the burrowing animation and emits the `burrow_started` signal.
-- `complete_burrow()`: Marks the player as fully burrowed and disables collision layers.
-- `start_emerge()`: Starts the emerging animation and transitions the player out of the burrowing state.
-- `complete_emerge()`: Completes the emerging process, restores collision layers, and resets the player's state.
-- `exit()`: Cleans up the burrowing state when transitioning to another state.
-- `get_speed_modifier()`: Returns the speed multiplier based on whether the player is burrowed.
-
-### Signals:
-- `burrow_started`: Emitted when the burrowing animation starts.
-- `burrow_ended`: Emitted when the burrowing process ends.
-
-This script is designed to be used as part of a state machine for the player and assumes the presence
-of an `AnimatedSprite2D` node for handling the player's sprite and animations.
-"""
-#endregion
-
 extends PlayerState
 
 signal burrow_started

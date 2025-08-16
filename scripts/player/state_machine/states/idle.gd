@@ -1,10 +1,3 @@
-#region Code Explanation
-"""
-The player will be able to fall (downward if on a higher platform), jump up and
-horizontally
-"""
-#endregion
-
 extends PlayerState
 
 func enter(_previous_state_path: String, _data := {}) -> void:

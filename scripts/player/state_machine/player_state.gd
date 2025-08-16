@@ -1,9 +1,3 @@
-#region Code Explanation
-"""
-Creates the player states are children to the parent of this file player_state.gd 
-"""
-#endregion
-
 class_name PlayerState extends State
 
 const IDLE = "Idle"

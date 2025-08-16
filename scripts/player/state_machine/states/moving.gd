@@ -1,9 +1,3 @@
-#region Code Explanation
-"""
-Move the player based on the user's input
-"""
-#endregion
-
 extends PlayerState
 
 func enter(_add_named_global_constantprevious_state_path: String, _data := {}) -> void:
