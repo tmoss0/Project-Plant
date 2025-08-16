@@ -4,13 +4,11 @@ signal grapple_started
 signal grapple_attached
 signal grapple_released
 
-# Configuration
-var config: PlayerConfig
-
 # Grappling hook settings
 @export var max_grapple_distance := 400.0
 @export var hook_travel_speed := 400.0
 @export var pull_speed := 1000.0
+@export var collision_surface := "GRAPPLESURFACE"
 
 # State
 enum GrappleState { IDLE, TRAVELING, ATTACHED }
@@ -32,7 +30,6 @@ var collision_layers: Dictionary = {}
 @onready var player: CharacterBody2D = get_parent()
 
 func _ready() -> void:
-	config = PlayerConfig.new()
 	_setup_visuals()
 	_setup_collision_layers()
 
@@ -52,7 +49,7 @@ func _setup_collision_layers() -> void:
 		if layer_name:
 			collision_layers[layer_name.to_upper()] = 1 << (layer - 1)
 	
-	raycast.collision_mask = collision_layers.get(config.collision_surface, 0)
+	raycast.collision_mask = collision_layers.get(collision_surface, 0)
 	raycast.exclude_parent = true
 
 # Handle input for releasing grapple
@@ -158,7 +155,7 @@ func _perform_raycast(direction: Vector2, distance: float) -> Dictionary:
 	return { "hit": hit, "point": point }
 
 func _is_valid_surface(collider) -> bool:
-	return collider.collision_layer & collision_layers[config.collision_surface] != 0
+	return collider.collision_layer & collision_layers[collision_surface] != 0
 
 func _has_reached_target(next_position: Vector2) -> bool:
 	return (next_position.distance_to(global_position) >= max_grapple_distance or 
