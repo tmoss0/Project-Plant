@@ -6,4 +6,4 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite = $AnimatedSprite2D
 @onready var coyote_timer = $CoyoteTimer
-@onready var grappling_hook = $GrapplingHook  # Now references GrapplingHookManager
+@onready var grappling_hook = $GrapplingHook

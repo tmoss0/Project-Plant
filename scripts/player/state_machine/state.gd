@@ -1,6 +1,7 @@
-## Base class for all the player states
+## Base state class for all the player states
 class_name State extends Node
 
+# warning-ignore:unused_signal
 signal finished(_next_state_path: String, _data: Dictionary)
 
 ## Called by state machine when receiving unhandled input events

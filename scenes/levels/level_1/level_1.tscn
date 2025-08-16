@@ -14,6 +14,7 @@ distance = -109.0
 
 [node name="Player" parent="." instance=ExtResource("1_8dtx3")]
 position = Vector2(548, 284)
+speed = 300.0
 
 [node name="Platform" type="StaticBody2D" parent="."]
 position = Vector2(-3, -274)
