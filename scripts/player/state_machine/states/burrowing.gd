@@ -38,12 +38,18 @@ var current_animation: AnimationDirection
 
 # Node references
 var sprite: AnimatedSprite2D
+var audio_player: AudioStreamPlayer2D
 
 func _ready() -> void:
 	await super._ready()
 	sprite = player.get_node("AnimatedSprite2D") as AnimatedSprite2D
 	assert(sprite != null, "AnimatedSprite2D node not found in Player")
 	initial_sprite_position = sprite.position
+	
+	# Get audio player reference and load the burrow sound
+	audio_player = player.get_node("AudioStreamPlayer2D") as AudioStreamPlayer2D
+	assert(audio_player != null, "AudioStreamPlayer2D node not found in Player")
+	audio_player.stream = load("res://audio/player/ferns_hit.mp3")
 
 func enter(_previous_state_path: String, _data : Dictionary = {}) -> void:
 	print("Entered Burrowing State")
@@ -129,10 +135,15 @@ func complete_animation() -> void:
 func start_burrow() -> void:
 	if not can_burrow:
 		return
-				
+			
 	animation_timer = 0.0
 	is_animating = true
 	current_animation = AnimationDirection.IN
+	
+	# Play burrow sound effect
+	if audio_player and audio_player.stream:
+		audio_player.play()
+	
 	burrow_started.emit()
 
 func complete_burrow() -> void:
@@ -158,6 +169,10 @@ func complete_emerge() -> void:
 	
 	# Ensure the sprite retains the correct direction after burrowing ends
 	sprite.flip_h = player.velocity.x < 0
+	
+	# Play burrow sound effect when emerging
+	if audio_player and audio_player.stream:
+		audio_player.play()
 	
 	can_burrow = false
 	get_tree().create_timer(burrow_cooldown).timeout.connect(func(): can_burrow = true)

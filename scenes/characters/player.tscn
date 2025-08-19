@@ -146,6 +146,8 @@ sprite_frames = SubResource("SpriteFrames_2vuod")
 animation = &"jump"
 autoplay = "idle"
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
 [node name="CoyoteTimer" type="Timer" parent="."]
 
 [node name="StateMachine" type="Node" parent="."]
