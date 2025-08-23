@@ -150,6 +150,9 @@ autoplay = "idle"
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 
+[node name="JumpCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("7_10f5o")
 

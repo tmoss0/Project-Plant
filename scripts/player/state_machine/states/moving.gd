@@ -17,7 +17,7 @@ func physics_update(delta: float) -> void:
 		if player.debug_mode:
 			print("Transitioning to falling state")
 		finished.emit(FALLING)
-	elif Input.is_action_pressed("jump"):
+	elif Input.is_action_pressed("jump") and player.jump_cooldown_timer.is_stopped():
 		if player.debug_mode:
 			print("Transitioning to jumping state")
 		finished.emit(JUMPING)

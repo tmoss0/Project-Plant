@@ -11,7 +11,7 @@ func physics_update(_delta: float) -> void:
 		finished.emit(FALLING)
 	elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		finished.emit(MOVING)
-	elif Input.is_action_pressed("jump"):
+	elif Input.is_action_pressed("jump") and player.jump_cooldown_timer.is_stopped():
 		finished.emit(JUMPING)
 	elif Input.is_action_pressed("grapple"):
 		finished.emit(GRAPPLING)
