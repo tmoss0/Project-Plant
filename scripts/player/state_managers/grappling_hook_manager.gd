@@ -118,7 +118,12 @@ func _update_attached_grapple(_delta: float) -> void:
 	print("DEBUG: Grappled - distance: ", distance, " velocity: ", to_grapple.normalized() * pull_speed)
 	
 	if distance > 20.0:
-		player.velocity = to_grapple.normalized() * pull_speed
+		# Apply grapple force while preserving gravity
+		var grapple_force = to_grapple.normalized() * pull_speed
+		player.velocity.x = grapple_force.x
+		# Don't override Y velocity (gravity will be applied in the state)
+		if player.velocity.y > 0:  # Only apply upward force if falling
+			player.velocity.y = min(player.velocity.y, grapple_force.y)
 		# State machine will handle move_and_slide()
 	else:
 		print("DEBUG: Reached target, releasing grapple")
