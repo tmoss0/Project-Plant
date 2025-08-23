@@ -31,6 +31,7 @@ var burrow_timer : float = 0.0
 var animation_timer : float = 0.0
 var is_animating : bool = false
 var initial_sprite_position : Vector2
+var emerge_sound_played : bool = false
 
 # Animation direction enum
 enum AnimationDirection { IN, OUT }
@@ -112,6 +113,12 @@ func handle_animation(delta: float) -> void:
 	animation_timer += delta
 	var progress = animation_timer / animation_duration
 	
+	# Play emerge sound when animation is 80% complete
+	if current_animation == AnimationDirection.OUT and progress >= 0.8 and not emerge_sound_played:
+		if audio_player and audio_player.stream:
+			audio_player.play()
+		emerge_sound_played = true
+	
 	if progress >= 1.0:
 		animation_timer = 0.0
 		is_animating = false
@@ -158,6 +165,7 @@ func start_emerge() -> void:
 	is_animating = true
 	current_animation = AnimationDirection.OUT
 	animation_timer = 0.0
+	emerge_sound_played = false  # Reset flag for new emerge animation
 
 func complete_emerge() -> void:
 	burrow_timer = 0.0
@@ -170,10 +178,6 @@ func complete_emerge() -> void:
 	# Ensure the sprite retains the correct direction after burrowing ends
 	sprite.flip_h = player.velocity.x < 0
 	
-	# Play burrow sound effect when emerging
-	if audio_player and audio_player.stream:
-		audio_player.play()
-	
 	can_burrow = false
 	get_tree().create_timer(burrow_cooldown).timeout.connect(func(): can_burrow = true)
 	
@@ -185,6 +189,7 @@ func exit() -> void:
 		sprite.position = initial_sprite_position
 		is_burrowed = false
 		is_animating = false
+		emerge_sound_played = false  # Reset sound flag on exit
 		player.set_collision_layer_value(PLAYER_COLLISION_LAYER, true)
 		player.set_collision_mask_value(PLAYER_COLLISION_LAYER, true)
 		burrow_ended.emit()
