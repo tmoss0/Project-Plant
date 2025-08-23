@@ -11,8 +11,8 @@ signal burrow_ended
 @export var burrow_slide_speed: float = 5.0
 
 # Animation parameters
-@export var animation_duration: float = 0.5  # Time for both entering and exiting
-@export var sprite_offset: float = 32.0  # Maximum distance sprite will move
+@export var animation_duration: float = 0.5 # Time for both entering and exiting
+@export var sprite_offset: float = 32.0 # Maximum distance sprite will move
 
 # Velocity damping factors
 @export var horizontal_damping: float = 0.2
@@ -25,16 +25,16 @@ signal burrow_ended
 const PLAYER_COLLISION_LAYER: int = 1
 
 # State variables
-var is_burrowed : bool = false
-var can_burrow : bool = true
-var burrow_timer : float = 0.0
-var animation_timer : float = 0.0
-var is_animating : bool = false
-var initial_sprite_position : Vector2
-var emerge_sound_played : bool = false
+var is_burrowed: bool = false
+var can_burrow: bool = true
+var burrow_timer: float = 0.0
+var animation_timer: float = 0.0
+var is_animating: bool = false
+var initial_sprite_position: Vector2
+var emerge_sound_played: bool = false
 
 # Animation direction enum
-enum AnimationDirection { IN, OUT }
+enum AnimationDirection {IN, OUT}
 var current_animation: AnimationDirection
 
 # Node references
@@ -52,7 +52,7 @@ func _ready() -> void:
 	assert(audio_player != null, "AudioStreamPlayer2D node not found in Player")
 	audio_player.stream = load("res://audio/player/ferns_hit.mp3")
 
-func enter(_previous_state_path: String, _data : Dictionary = {}) -> void:
+func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
 	print("Entered Burrowing State")
 	start_burrow()
 
@@ -74,7 +74,7 @@ func physics_update(delta: float) -> void:
 			
 	burrow_timer += delta
 	
-	# Apply burrow sliding effect if movingd d 
+	# Apply burrow sliding effect if moving
 	if abs(player.velocity.x) > 0:
 		var slide_amount = sin(burrow_timer * burrow_slide_speed) * burrow_slide_depth
 		player.position.x += slide_amount * delta
@@ -83,7 +83,7 @@ func physics_update(delta: float) -> void:
 		start_emerge()
 
 func handle_movement(_delta: float) -> void:
-	var direction : float = Input.get_axis("move_left", "move_right")
+	var direction: float = Input.get_axis("move_left", "move_right")
 	
 	# Calculate speed based on state
 	var current_speed = player.speed * speed_multiplier if (is_burrowed or is_animating) else player.speed
@@ -112,9 +112,11 @@ func handle_movement(_delta: float) -> void:
 func handle_animation(delta: float) -> void:
 	animation_timer += delta
 	var progress = animation_timer / animation_duration
+	print("Progress: ", progress)
 	
-	# Play emerge sound when animation is 80% complete
-	if current_animation == AnimationDirection.OUT and progress >= 0.8 and not emerge_sound_played:
+	# Play emerge sound
+	if current_animation == AnimationDirection.OUT and progress >= 0.5 and not emerge_sound_played:
+		print("Emerge sound played")
 		if audio_player and audio_player.stream:
 			audio_player.play()
 		emerge_sound_played = true
@@ -127,7 +129,7 @@ func handle_animation(delta: float) -> void:
 	
 	# Calculate animation progress based on direction
 	var t = ease(
-		progress if current_animation == AnimationDirection.IN else 1.0 - progress, 
+		progress if current_animation == AnimationDirection.IN else 1.0 - progress,
 		2.0
 	)
 	sprite.position.y = initial_sprite_position.y + (sprite_offset * t)
@@ -165,7 +167,7 @@ func start_emerge() -> void:
 	is_animating = true
 	current_animation = AnimationDirection.OUT
 	animation_timer = 0.0
-	emerge_sound_played = false  # Reset flag for new emerge animation
+	emerge_sound_played = false # Reset flag for new emerge animation
 
 func complete_emerge() -> void:
 	burrow_timer = 0.0
@@ -189,7 +191,7 @@ func exit() -> void:
 		sprite.position = initial_sprite_position
 		is_burrowed = false
 		is_animating = false
-		emerge_sound_played = false  # Reset sound flag on exit
+		emerge_sound_played = false # Reset sound flag on exit
 		player.set_collision_layer_value(PLAYER_COLLISION_LAYER, true)
 		player.set_collision_mask_value(PLAYER_COLLISION_LAYER, true)
 		burrow_ended.emit()
