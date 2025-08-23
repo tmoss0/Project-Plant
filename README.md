@@ -37,4 +37,3 @@ project-plant/
 ## Development Status
 
 Early development (v0.1) with core mechanics implemented and 4 levels created.
-
