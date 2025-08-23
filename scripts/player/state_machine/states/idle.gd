@@ -1,6 +1,6 @@
 extends PlayerState
 
-func enter(_previous_state_path: String, _data := {}) -> void:
+func enter(_previous_state_path: String, _data : Dictionary = {}) -> void:
 	player.velocity.x = 0.0
 
 func physics_update(_delta: float) -> void:

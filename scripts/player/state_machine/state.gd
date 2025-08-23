@@ -19,7 +19,7 @@ func physics_update(_delta: float) -> void:
 ## Called by state machine upon changing the active state. 
 ## Data parameter is a dict with arbitray data the state can 
 ## use to initialize itself
-func enter(_previous_state_path: String, _data := {}) -> void:
+func enter(_previous_state_path: String, _data : Dictionary = {}) -> void:
 	pass
 	
 ## Called by state machine before changing the active state

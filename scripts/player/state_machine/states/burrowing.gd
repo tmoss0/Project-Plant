@@ -25,12 +25,12 @@ signal burrow_ended
 const PLAYER_COLLISION_LAYER: int = 1
 
 # State variables
-var is_burrowed := false
-var can_burrow := true
-var burrow_timer := 0.0
-var animation_timer := 0.0
-var is_animating := false
-var initial_sprite_position: Vector2
+var is_burrowed : bool = false
+var can_burrow : bool = true
+var burrow_timer : float = 0.0
+var animation_timer : float = 0.0
+var is_animating : bool = false
+var initial_sprite_position : Vector2
 
 # Animation direction enum
 enum AnimationDirection { IN, OUT }
@@ -45,7 +45,7 @@ func _ready() -> void:
 	assert(sprite != null, "AnimatedSprite2D node not found in Player")
 	initial_sprite_position = sprite.position
 
-func enter(_previous_state_path: String, _data := {}) -> void:
+func enter(_previous_state_path: String, _data : Dictionary = {}) -> void:
 	print("Entered Burrowing State")
 	start_burrow()
 
@@ -76,7 +76,7 @@ func physics_update(delta: float) -> void:
 		start_emerge()
 
 func handle_movement(_delta: float) -> void:
-	var direction := Input.get_axis("move_left", "move_right")
+	var direction : float = Input.get_axis("move_left", "move_right")
 	
 	# Calculate speed based on state
 	var current_speed = player.speed * speed_multiplier if (is_burrowed or is_animating) else player.speed

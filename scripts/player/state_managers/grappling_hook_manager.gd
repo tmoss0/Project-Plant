@@ -5,10 +5,10 @@ signal grapple_attached
 signal grapple_released
 
 # Grappling hook settings
-@export var max_grapple_distance := 400.0
-@export var hook_travel_speed := 800.0
-@export var pull_speed := 1000.0
-@export var collision_surface := "GRAPPLESURFACE"
+@export var max_grapple_distance: float = 400.0
+@export var hook_travel_speed: float = 800.0
+@export var pull_speed: float = 1000.0
+@export var collision_surface: String = "GRAPPLESURFACE"
 
 # State
 enum GrappleState { IDLE, TRAVELING, ATTACHED }

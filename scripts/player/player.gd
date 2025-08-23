@@ -1,8 +1,8 @@
 class_name Player extends CharacterBody2D
 
-@export var speed := 300.0
-@export var jump_velocity := -400.0
-@export var debug_mode := false
+@export var speed : float = 300.0
+@export var jump_velocity : float = -400.0
+@export var debug_mode : bool = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite = $AnimatedSprite2D
