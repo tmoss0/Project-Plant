@@ -1,10 +1,10 @@
 [gd_scene load_steps=28 format=3 uid="uid://dopsbp4nqkliw"]
 
 [ext_resource type="Script" uid="uid://b23fgj2a7hy3" path="res://scripts/player/player.gd" id="1_usb8g"]
-[ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/character/Fall (32x32).png" id="2_jbnev"]
-[ext_resource type="Texture2D" uid="uid://dioj0oaoqqa5m" path="res://assets/textures/character/Idle (32x32).png" id="2_kvbms"]
+[ext_resource type="Texture2D" uid="uid://cpx056uvktefx" path="res://assets/textures/player/Fall (32x32).png" id="2_jbnev"]
+[ext_resource type="Texture2D" uid="uid://dioj0oaoqqa5m" path="res://assets/textures/player/Idle (32x32).png" id="2_kvbms"]
 [ext_resource type="Script" uid="uid://sd1o33fx7xx6" path="res://scripts/player/state_managers/grappling_hook_manager.gd" id="2_rwc6h"]
-[ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/character/Jump (32x32).png" id="4_8gk2l"]
+[ext_resource type="Texture2D" uid="uid://c1bgf58lkgxdl" path="res://assets/textures/player/Jump (32x32).png" id="4_8gk2l"]
 [ext_resource type="Texture2D" uid="uid://8xfvdmb00wwk" path="res://assets/textures/grapple/hook.png" id="5_4pidl"]
 [ext_resource type="Script" uid="uid://dkelrfsuip1au" path="res://scripts/player/state_machine/state_machine.gd" id="7_10f5o"]
 [ext_resource type="Script" uid="uid://bynopi22w3pqu" path="res://scripts/player/state_machine/states/idle.gd" id="8_jfaem"]

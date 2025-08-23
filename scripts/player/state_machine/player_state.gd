@@ -1,12 +1,12 @@
 class_name PlayerState extends State
 
-const IDLE = "Idle"
-const JUMPING = "Jumping"
-const MOVING = "Moving"
-const GRAPPLING = "Grappling"
-const GRAPPLED = "Grappled"
-const BURROWING = "Burrowing"
-const FALLING = "Falling"
+const IDLE : String = "Idle"
+const JUMPING : String = "Jumping"
+const MOVING : String = "Moving"
+const GRAPPLING : String = "Grappling"
+const GRAPPLED : String = "Grappled"
+const BURROWING : String = "Burrowing"
+const FALLING : String = "Falling"
 
 var player: Player
 
