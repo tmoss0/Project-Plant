@@ -38,12 +38,19 @@ var current_animation: AnimationDirection
 
 # Node references
 var sprite: AnimatedSprite2D
+var audio_player: AudioStreamPlayer2D
 
 func _ready() -> void:
 	await super._ready()
 	sprite = player.get_node("AnimatedSprite2D") as AnimatedSprite2D
 	assert(sprite != null, "AnimatedSprite2D node not found in Player")
 	initial_sprite_position = sprite.position
+	
+	# Setup audio player
+	audio_player = AudioStreamPlayer2D.new()
+	audio_player.stream = load("res://audio/player/ferns_hit.mp3")
+	audio_player.volume_db = 0.0  # Adjust volume as needed
+	player.add_child(audio_player)
 
 func enter(_previous_state_path: String, _data : Dictionary = {}) -> void:
 	print("Entered Burrowing State")
@@ -134,6 +141,10 @@ func start_burrow() -> void:
 	is_animating = true
 	current_animation = AnimationDirection.IN
 	burrow_started.emit()
+	
+	# Play burrow sound
+	if audio_player:
+		audio_player.play()
 
 func complete_burrow() -> void:
 	is_burrowed = true
@@ -163,6 +174,11 @@ func complete_emerge() -> void:
 	get_tree().create_timer(burrow_cooldown).timeout.connect(func(): can_burrow = true)
 	
 	burrow_ended.emit()
+	
+	# Play burrow end sound
+	if audio_player:
+		audio_player.play()
+	
 	finished.emit("Idle", {})
 
 func exit() -> void:
@@ -173,6 +189,10 @@ func exit() -> void:
 		player.set_collision_layer_value(PLAYER_COLLISION_LAYER, true)
 		player.set_collision_mask_value(PLAYER_COLLISION_LAYER, true)
 		burrow_ended.emit()
+		
+		# Play burrow end sound
+		if audio_player:
+			audio_player.play()
 
 func get_speed_modifier() -> float:
 	return speed_multiplier if is_burrowed else 1.0
