@@ -7,20 +7,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta0o2"]
 size = Vector2(986, 40)
 
-[node name="World_Floor" type="StaticBody2D"]
-position = Vector2(552, 504)
+[node name="Floor" type="StaticBody2D"]
 collision_layer = 6
 
 [node name="TextureRect" type="TextureRect" parent="."]
 material = SubResource("CanvasItemMaterial_3kgh6")
-offset_left = -442.0
-offset_top = -235.0
-offset_right = -402.0
-offset_bottom = -195.0
+offset_left = -497.00003
+offset_top = -20.0
+offset_right = -457.00003
+offset_bottom = 20.0
 scale = Vector2(24.76, 1)
 texture = SubResource("CanvasTexture_um5t2")
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(53, -213)
 shape = SubResource("RectangleShape2D_ta0o2")

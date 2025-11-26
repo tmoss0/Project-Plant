@@ -11,7 +11,7 @@ signal grapple_released
 @export var collision_surface: String = "GRAPPLESURFACE"
 
 # State
-enum GrappleState { IDLE, TRAVELING, ATTACHED }
+enum GrappleState {IDLE, TRAVELING, ATTACHED}
 var current_state: GrappleState = GrappleState.IDLE
 
 # Grapple data
@@ -83,11 +83,11 @@ func _update_aim_line() -> void:
 	# If raycast hits a valid surface, show green line; otherwise red
 	if hit and _is_valid_surface(raycast.get_collider()):
 		aim_line.points = PackedVector2Array([Vector2.ZERO, to_local(raycast.get_collision_point())])
-		aim_line.default_color = Color(0, 1, 0, 0.5)  # Green
+		aim_line.default_color = Color(0, 1, 0, 0.5) # Green
 	else:
 		# Show red line to max distance
 		aim_line.points = PackedVector2Array([Vector2.ZERO, direction * max_grapple_distance])
-		aim_line.default_color = Color(1, 0, 0, 0.5)  # Red
+		aim_line.default_color = Color(1, 0, 0, 0.5) # Red
 	
 	aim_line.visible = true
 
@@ -122,9 +122,8 @@ func _update_attached_grapple(_delta: float) -> void:
 		var grapple_force = to_grapple.normalized() * pull_speed
 		player.velocity.x = grapple_force.x
 		# Don't override Y velocity (gravity will be applied in the state)
-		if player.velocity.y > 0:  # Only apply upward force if falling
+		if player.velocity.y > 0:
 			player.velocity.y = min(player.velocity.y, grapple_force.y)
-		# State machine will handle move_and_slide()
 	else:
 		print("DEBUG: Reached target, releasing grapple")
 		player.velocity = Vector2.ZERO
@@ -191,8 +190,8 @@ func _attach_hook() -> void:
 func _is_valid_surface(collider) -> bool:
 	# Check if collider is on World (layer 2) or GrappleSurface (layer 3)
 	# collision_mask = 6 means we detect layers 2 and 3
-	var world_layer = collision_layers.get("WORLD", 2)  # Layer 2
-	var grapple_layer = collision_layers.get("GRAPPLESURFACE", 4)  # Layer 3
+	var world_layer = collision_layers.get("WORLD", 2) # Layer 2
+	var grapple_layer = collision_layers.get("GRAPPLESURFACE", 4) # Layer 3
 	return (collider.collision_layer & world_layer) != 0 or (collider.collision_layer & grapple_layer) != 0
 
 func _update_rope_visual() -> void:
